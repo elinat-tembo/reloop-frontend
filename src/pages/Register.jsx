@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../api/auth";
+import logo from "../assets/reloop-logo.png";
 
 function Register() {
   const navigate = useNavigate();
@@ -35,12 +36,13 @@ function Register() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-73px)] flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg shadow-primary/10 border border-secondary/30">
+        <img src={logo} alt="Reloop" className="h-10 w-auto mb-4" />
         <h1 className="text-xl font-bold text-gray-900 mb-1">
           Create an account
         </h1>
-        <p className="text-xs text-gray-500 mb-6">
+        <p className="text-xs text-gray-500 mb-4">
           Join Reloop to get started.
         </p>
 

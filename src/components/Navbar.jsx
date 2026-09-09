@@ -1,5 +1,8 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import logo from "../assets/reloop-logo.png";
+
+const HIDDEN_ON = ["/login", "/register"];
 
 function navLinkClass({ isActive }) {
   return isActive
@@ -10,6 +13,11 @@ function navLinkClass({ isActive }) {
 function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  if (HIDDEN_ON.includes(location.pathname)) {
+    return null;
+  }
 
   function handleLogout() {
     logout();
@@ -19,8 +27,8 @@ function Navbar() {
   return (
     <nav className="bg-white/70 backdrop-blur border-b border-secondary/40 shadow-sm">
       <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="text-lg font-bold text-primary tracking-tight">
-          Reloop
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Reloop" className="h-10 w-auto" />
         </Link>
 
         <div className="flex items-center gap-6 text-sm font-medium">
