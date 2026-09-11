@@ -1,0 +1,140 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { getListings } from '../api/listings'
+import ListingCard from '../components/ListingCard'
+import { CATEGORIES } from '../utils/categories'
+import { CITIES, REGIONS } from '../utils/locations'
+import { CONDITIONS } from '../utils/conditions'
+
+const EMPTY_FILTERS = {
+  city: '',
+  region: '',
+  type: '',
+  condition: '',
+}
+
+function BrowseListings() {
+  const [listings, setListings] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [filters, setFilters] = useState(EMPTY_FILTERS)
+
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true)
+
+    const activeFilters = Object.fromEntries(
+      Object.entries(filters).filter(([, value]) => value !== ''),
+    )
+
+    getListings(activeFilters)
+      .then((data) => {
+        if (!cancelled) setListings(data)
+      })
+      .catch(() => {
+        if (!cancelled) toast.error('Failed to load listings.')
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [filters])
+
+  function handleFilterChange(e) {
+    const { name, value } = e.target
+    setFilters((prev) => ({ ...prev, [name]: value }))
+  }
+
+  return (
+    <div className="min-h-[calc(100vh-73px)] bg-background px-6 py-12">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">Browse Listings</h1>
+          <Link
+            to="/listings/new"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary transition-colors"
+          >
+            Create New Listing
+          </Link>
+        </div>
+
+        <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <select
+            name="city"
+            value={filters.city}
+            onChange={handleFilterChange}
+            className="rounded-lg border border-secondary/50 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">All cities</option>
+            {CITIES.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="region"
+            value={filters.region}
+            onChange={handleFilterChange}
+            className="rounded-lg border border-secondary/50 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">All regions</option>
+            {REGIONS.map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="type"
+            value={filters.type}
+            onChange={handleFilterChange}
+            className="rounded-lg border border-secondary/50 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">All types</option>
+            {CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="condition"
+            value={filters.condition}
+            onChange={handleFilterChange}
+            className="rounded-lg border border-secondary/50 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">All conditions</option>
+            {CONDITIONS.map((condition) => (
+              <option key={condition} value={condition}>
+                {condition}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center py-16">
+            <span className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          </div>
+        ) : listings.length === 0 ? (
+          <p className="text-gray-500">No listings match these filters.</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default BrowseListings

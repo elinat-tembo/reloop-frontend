@@ -4,4 +4,13 @@
   --color-primary: #9381ff;
   --color-secondary: #b8b8ff;
   --color-background: #f8f7ff;
+  --color-accent: #9667e0;
+  --color-accent-light: #d4bbfc;
+  --color-accent-pale: #ebd9fc;
+  --color-accent-mist: #f2ebfb;
+  --color-accent-white: #fbfaff;
+}
+
+html {
+  font-size: 15px;
 }
