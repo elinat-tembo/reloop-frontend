@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { getListingById, deleteListing } from '../api/listings'
 import { useAuth } from '../context/AuthContext'
 import { isListingAvailable, formatEstimatedValue } from '../utils/listingHelpers'
+import Spinner from '../components/Spinner'
 
 function ItemDetail() {
   const { itemId } = useParams()
@@ -52,7 +53,7 @@ function ItemDetail() {
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-73px)] bg-background px-6 py-12 flex justify-center">
-        <span className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        <Spinner />
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNotifications } from "../context/NotificationContext";
 import logo from "../assets/reloop-logo.png";
 
 const HIDDEN_ON = ["/login", "/register"];
@@ -12,6 +13,7 @@ function navLinkClass({ isActive }) {
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const { pendingIncomingCount } = useNotifications();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,6 +38,11 @@ function Navbar() {
             <>
               <NavLink to="/dashboard" className={navLinkClass}>
                 Dashboard
+                {pendingIncomingCount > 0 && (
+                  <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
+                    {pendingIncomingCount}
+                  </span>
+                )}
               </NavLink>
               <NavLink to="/listings" className={navLinkClass}>
                 Listings

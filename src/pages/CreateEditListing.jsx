@@ -10,6 +10,7 @@ import { openImageUploadWidget } from '../utils/cloudinary'
 import { CATEGORIES } from '../utils/categories'
 import { CITIES, REGIONS } from '../utils/locations'
 import { CONDITIONS } from '../utils/conditions'
+import Spinner from '../components/Spinner'
 
 const EMPTY_FORM = {
   type: CATEGORIES[0],
@@ -116,7 +117,7 @@ function CreateEditListing() {
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-73px)] bg-background px-6 py-12 flex justify-center">
-        <span className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        <Spinner />
       </div>
     )
   }
@@ -304,7 +305,7 @@ function CreateEditListing() {
               className="inline-flex items-center gap-2 rounded-lg border border-accent px-4 py-2 text-sm font-semibold text-accent hover:bg-accent-mist transition-colors disabled:opacity-60 cursor-pointer"
             >
               {uploading ? (
-                <span className="h-4 w-4 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+                <Spinner size="sm" />
               ) : (
                 'Upload Images'
               )}

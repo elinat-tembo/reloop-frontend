@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { getListings } from '../api/listings'
 import ListingCard from '../components/ListingCard'
+import Spinner from '../components/Spinner'
+import Pagination from '../components/Pagination'
+import { useAuth } from '../context/AuthContext'
 import { CATEGORIES } from '../utils/categories'
 import { CITIES, REGIONS } from '../utils/locations'
 import { CONDITIONS } from '../utils/conditions'
@@ -13,11 +16,15 @@ const EMPTY_FILTERS = {
   type: '',
   condition: '',
 }
+const PAGE_LIMIT = 20
 
 function BrowseListings() {
+  const { user } = useAuth()
   const [listings, setListings] = useState([])
+  const [pagination, setPagination] = useState(null)
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState(EMPTY_FILTERS)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     let cancelled = false
@@ -27,9 +34,12 @@ function BrowseListings() {
       Object.entries(filters).filter(([, value]) => value !== ''),
     )
 
-    getListings(activeFilters)
-      .then((data) => {
-        if (!cancelled) setListings(data)
+    getListings({ ...activeFilters, page, limit: PAGE_LIMIT })
+      .then(({ listings: data, pagination: paginationData }) => {
+        if (!cancelled) {
+          setListings(data.filter((listing) => listing.ownerId !== user?.id))
+          setPagination(paginationData)
+        }
       })
       .catch(() => {
         if (!cancelled) toast.error('Failed to load listings.')
@@ -41,11 +51,12 @@ function BrowseListings() {
     return () => {
       cancelled = true
     }
-  }, [filters])
+  }, [filters, page, user])
 
   function handleFilterChange(e) {
     const { name, value } = e.target
     setFilters((prev) => ({ ...prev, [name]: value }))
+    setPage(1)
   }
 
   return (
@@ -121,16 +132,28 @@ function BrowseListings() {
 
         {loading ? (
           <div className="flex justify-center py-16">
-            <span className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+            <Spinner />
           </div>
         ) : listings.length === 0 ? (
           <p className="text-gray-500">No listings match these filters.</p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {listings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {listings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+
+            {pagination && (
+              <Pagination
+                page={pagination.page}
+                totalPages={pagination.totalPages}
+                hasPrev={pagination.hasPrev}
+                hasNext={pagination.hasNext}
+                onChange={setPage}
+              />
+            )}
+          </>
         )}
       </div>
     </div>

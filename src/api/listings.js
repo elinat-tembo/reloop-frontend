@@ -7,9 +7,10 @@ export function createListing(data) {
 }
 
 export function getListings(filters = {}) {
-  return apiClient
-    .get('/listings', { params: filters })
-    .then((res) => res.data.listings)
+  return apiClient.get('/listings', { params: filters }).then((res) => ({
+    listings: res.data.listings,
+    pagination: res.data.pagination,
+  }))
 }
 
 export function getListingById(id) {
@@ -18,8 +19,11 @@ export function getListingById(id) {
     .then((res) => res.data.listing)
 }
 
-export function getMyListings() {
-  return apiClient.get('/listings/mine').then((res) => res.data.listings)
+export function getMyListings(params = {}) {
+  return apiClient.get('/listings/mine', { params }).then((res) => ({
+    listings: res.data.listings,
+    pagination: res.data.pagination,
+  }))
 }
 
 export function updateListing(id, data) {
