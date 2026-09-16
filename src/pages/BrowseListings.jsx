@@ -7,7 +7,7 @@ import Spinner from '../components/Spinner'
 import Pagination from '../components/Pagination'
 import { useAuth } from '../context/AuthContext'
 import { CATEGORIES } from '../utils/categories'
-import { CITIES, REGIONS } from '../utils/locations'
+import { LOCATIONS, CITIES, REGIONS } from '../utils/locations'
 import { CONDITIONS } from '../utils/conditions'
 
 const EMPTY_FILTERS = {
@@ -55,9 +55,15 @@ function BrowseListings() {
 
   function handleFilterChange(e) {
     const { name, value } = e.target
-    setFilters((prev) => ({ ...prev, [name]: value }))
+    if (name === 'region') {
+      setFilters((prev) => ({ ...prev, region: value, city: '' }))
+    } else {
+      setFilters((prev) => ({ ...prev, [name]: value }))
+    }
     setPage(1)
   }
+
+  const cityOptions = filters.region ? LOCATIONS[filters.region] : CITIES
 
   return (
     <div className="min-h-[calc(100vh-73px)] bg-background px-6 py-12">
@@ -74,20 +80,6 @@ function BrowseListings() {
 
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <select
-            name="city"
-            value={filters.city}
-            onChange={handleFilterChange}
-            className="rounded-lg border border-secondary/50 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">All cities</option>
-            {CITIES.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-
-          <select
             name="region"
             value={filters.region}
             onChange={handleFilterChange}
@@ -97,6 +89,20 @@ function BrowseListings() {
             {REGIONS.map((region) => (
               <option key={region} value={region}>
                 {region}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="city"
+            value={filters.city}
+            onChange={handleFilterChange}
+            className="rounded-lg border border-secondary/50 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="">All cities</option>
+            {cityOptions.map((city) => (
+              <option key={city} value={city}>
+                {city}
               </option>
             ))}
           </select>

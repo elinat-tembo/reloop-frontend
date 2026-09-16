@@ -8,7 +8,7 @@ import {
 } from '../api/listings'
 import { openImageUploadWidget } from '../utils/cloudinary'
 import { CATEGORIES } from '../utils/categories'
-import { CITIES, REGIONS } from '../utils/locations'
+import { LOCATIONS, REGIONS } from '../utils/locations'
 import { CONDITIONS } from '../utils/conditions'
 import Spinner from '../components/Spinner'
 
@@ -18,8 +18,8 @@ const EMPTY_FORM = {
   size: '',
   condition: CONDITIONS[0],
   estimatedValue: '',
-  city: CITIES[0],
   region: REGIONS[0],
+  city: LOCATIONS[REGIONS[0]][0],
   availability: 'available',
 }
 
@@ -67,6 +67,10 @@ function CreateEditListing() {
 
   function handleChange(e) {
     const { name, value } = e.target
+    if (name === 'region') {
+      setForm((prev) => ({ ...prev, region: value, city: LOCATIONS[value][0] }))
+      return
+    }
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
@@ -241,24 +245,6 @@ function CreateEditListing() {
 
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">
-                City
-              </label>
-              <select
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-secondary/50 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                {CITIES.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
                 Region
               </label>
               <select
@@ -270,6 +256,24 @@ function CreateEditListing() {
                 {REGIONS.map((region) => (
                   <option key={region} value={region}>
                     {region}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">
+                City
+              </label>
+              <select
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-secondary/50 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                {(LOCATIONS[form.region] || []).map((city) => (
+                  <option key={city} value={city}>
+                    {city}
                   </option>
                 ))}
               </select>

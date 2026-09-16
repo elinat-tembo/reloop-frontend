@@ -1,4 +1,10 @@
-// Placeholder options until the curated city/region list is finalized.
-export const CITIES = ['City A', 'City B', 'City C', 'City D']
+export const LOCATIONS = {
+  'Lusaka Province': ['Lusaka', 'Kafue', 'Chongwe', 'Chilanga'],
+  'Copperbelt Province': ['Ndola', 'Kitwe', 'Chingola', 'Mufulira', 'Luanshya'],
+  'Southern Province': ['Livingstone', 'Choma', 'Mazabuka', 'Monze'],
+  'Other Provinces': ['Kabwe', 'Chipata', 'Kasama', 'Solwezi'],
+}
 
-export const REGIONS = ['Region A', 'Region B', 'Region C', 'Region D']
+export const REGIONS = Object.keys(LOCATIONS)
+
+export const CITIES = Object.values(LOCATIONS).flat()
