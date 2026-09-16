@@ -13,6 +13,7 @@ import ItemDetail from './pages/ItemDetail'
 import CreateEditListing from './pages/CreateEditListing'
 import SwapRequest from './pages/SwapRequest'
 import SwapStatus from './pages/SwapStatus'
+import Chat from './pages/Chat'
 import Profile from './pages/Profile'
 import Admin from './pages/Admin'
 
@@ -42,6 +43,7 @@ function App() {
                 element={<SwapRequest />}
               />
               <Route path="/swaps/:swapId" element={<SwapStatus />} />
+              <Route path="/swaps/:swapId/chat" element={<Chat />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
 

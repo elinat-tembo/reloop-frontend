@@ -169,14 +169,12 @@ function SwapStatus() {
             </button>
           )}
 
-          {swap.status === 'accepted' && (
-            <Link
-              to={`/swaps/${swap.id}/chat`}
-              className="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary transition-colors"
-            >
-              Go to Chat
-            </Link>
-          )}
+          <Link
+            to={`/swaps/${swap.id}/chat`}
+            className="inline-block mt-3 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary transition-colors"
+          >
+            Go to Chat
+          </Link>
         </div>
       </div>
     </div>
