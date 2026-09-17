@@ -34,7 +34,14 @@ function Navbar() {
         </Link>
 
         <div className="flex items-center gap-6 text-sm font-medium">
-          {user ? (
+          {user && user.role === "admin" ? (
+            <button
+              onClick={handleLogout}
+              className="rounded-lg bg-primary px-4 py-2 text-white font-semibold hover:bg-secondary transition-colors cursor-pointer"
+            >
+              Logout
+            </button>
+          ) : user ? (
             <>
               <NavLink to="/dashboard" className={navLinkClass}>
                 Dashboard
@@ -50,11 +57,6 @@ function Navbar() {
               <NavLink to="/profile" className={navLinkClass}>
                 Profile
               </NavLink>
-              {user.role === "admin" && (
-                <NavLink to="/admin" className={navLinkClass}>
-                  Admin
-                </NavLink>
-              )}
               <button
                 onClick={handleLogout}
                 className="rounded-lg bg-primary px-4 py-2 text-white font-semibold hover:bg-secondary transition-colors cursor-pointer"

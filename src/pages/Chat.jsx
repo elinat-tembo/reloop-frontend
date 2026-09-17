@@ -6,6 +6,7 @@ import { getListingById } from '../api/listings'
 import { sendMessage, getMessages } from '../api/chat'
 import { useAuth } from '../context/AuthContext'
 import Spinner from '../components/Spinner'
+import MessageThread from '../components/MessageThread'
 
 const POLL_INTERVAL_MS = 3500
 
@@ -158,32 +159,12 @@ function Chat() {
             </p>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
-            {messages.length === 0 ? (
-              <p className="text-sm text-gray-500 text-center pt-8">
-                No messages yet — start the conversation.
-              </p>
-            ) : (
-              messages.map((message) => {
-                const isMine = message.senderId === user?.id
-                return (
-                  <div
-                    key={message.id}
-                    className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm ${
-                        isMine
-                          ? 'bg-primary text-white'
-                          : 'bg-accent-mist text-gray-900'
-                      }`}
-                    >
-                      {message.content}
-                    </div>
-                  </div>
-                )
-              })
-            )}
+          <div className="flex-1 overflow-y-auto px-6 py-4">
+            <MessageThread
+              messages={messages}
+              isMine={(message) => message.senderId === user?.id}
+              emptyText="No messages yet — start the conversation."
+            />
             <div ref={messagesEndRef} />
           </div>
 

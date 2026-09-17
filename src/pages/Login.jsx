@@ -20,8 +20,8 @@ function Login() {
     setError("");
     setSubmitting(true);
     try {
-      await login(form.email, form.password);
-      navigate("/dashboard");
+      const { user } = await login(form.email, form.password);
+      navigate(user.role === "admin" ? "/admin" : "/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password.");
     } finally {

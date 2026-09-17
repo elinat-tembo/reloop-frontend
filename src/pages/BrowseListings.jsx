@@ -25,6 +25,7 @@ function BrowseListings() {
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState(EMPTY_FILTERS)
   const [page, setPage] = useState(1)
+  const [showUnavailable, setShowUnavailable] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -64,6 +65,9 @@ function BrowseListings() {
   }
 
   const cityOptions = filters.region ? LOCATIONS[filters.region] : CITIES
+  const visibleListings = showUnavailable
+    ? listings
+    : listings.filter((listing) => listing.availability !== 'unavailable')
 
   return (
     <div className="min-h-[calc(100vh-73px)] bg-background px-6 py-12">
@@ -136,16 +140,26 @@ function BrowseListings() {
           </select>
         </div>
 
+        <label className="mb-6 flex w-fit items-center gap-2 text-sm text-gray-600 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={showUnavailable}
+            onChange={(e) => setShowUnavailable(e.target.checked)}
+            className="h-4 w-4 rounded border-secondary/50 accent-primary cursor-pointer"
+          />
+          Show unavailable items
+        </label>
+
         {loading ? (
           <div className="flex justify-center py-16">
             <Spinner />
           </div>
-        ) : listings.length === 0 ? (
+        ) : visibleListings.length === 0 ? (
           <p className="text-gray-500">No listings match these filters.</p>
         ) : (
           <>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {listings.map((listing) => (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {visibleListings.map((listing) => (
                 <ListingCard key={listing.id} listing={listing} />
               ))}
             </div>

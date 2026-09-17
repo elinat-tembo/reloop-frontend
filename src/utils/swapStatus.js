@@ -4,4 +4,14 @@ export const STATUS_BADGE_CLASSES = {
   rejected: 'bg-red-100 text-red-700',
   expired: 'bg-gray-200 text-gray-600',
   cancelled: 'bg-gray-200 text-gray-600',
+  cancelled_by_admin: 'bg-gray-200 text-gray-600',
 }
+
+export const SWAP_STATUSES = [
+  'pending',
+  'accepted',
+  'rejected',
+  'expired',
+  'cancelled',
+  'cancelled_by_admin',
+]

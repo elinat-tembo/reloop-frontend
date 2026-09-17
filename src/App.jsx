@@ -29,7 +29,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            <Route element={<ProtectedRoute />}>
+            <Route element={<ProtectedRoute blockAdmin />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/listings" element={<BrowseListings />} />
               <Route path="/listings/new" element={<CreateEditListing />} />

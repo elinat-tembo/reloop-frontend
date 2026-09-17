@@ -9,6 +9,7 @@ import { isListingAvailable } from '../utils/listingHelpers'
 import Spinner from '../components/Spinner'
 import StatusBadge from '../components/StatusBadge'
 import Pagination from '../components/Pagination'
+import IconTab from '../components/IconTab'
 
 const PAGE_LIMIT = 5
 
@@ -66,21 +67,6 @@ function SwapRequestList({ requests, listings, showSender }) {
           </Link>
         )
       })}
-    </div>
-  )
-}
-
-function SwapTab({ icon: Icon, label, selected }) {
-  return (
-    <div
-      className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-colors cursor-pointer ${
-        selected
-          ? 'bg-primary text-white'
-          : 'text-gray-600 hover:bg-accent-mist'
-      }`}
-    >
-      <Icon className="h-4 w-4" />
-      {label}
     </div>
   )
 }
@@ -264,7 +250,7 @@ function Dashboard() {
             <TabList className="flex gap-2 mb-4">
               <Tab className="focus:outline-none">
                 {({ selected }) => (
-                  <SwapTab
+                  <IconTab
                     icon={InboxArrowDownIcon}
                     label="Incoming"
                     selected={selected}
@@ -273,7 +259,7 @@ function Dashboard() {
               </Tab>
               <Tab className="focus:outline-none">
                 {({ selected }) => (
-                  <SwapTab
+                  <IconTab
                     icon={PaperAirplaneIcon}
                     label="Outgoing"
                     selected={selected}

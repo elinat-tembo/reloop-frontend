@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-function ProtectedRoute({ adminOnly = false }) {
+function ProtectedRoute({ adminOnly = false, blockAdmin = false }) {
   const { user, token } = useAuth()
 
   if (!token || !user) {
@@ -10,6 +10,10 @@ function ProtectedRoute({ adminOnly = false }) {
 
   if (adminOnly && user.role !== 'admin') {
     return <Navigate to="/dashboard" replace />
+  }
+
+  if (blockAdmin && user.role === 'admin') {
+    return <Navigate to="/admin" replace />
   }
 
   return <Outlet />

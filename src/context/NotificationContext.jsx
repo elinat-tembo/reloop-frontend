@@ -17,7 +17,7 @@ export function NotificationProvider({ children }) {
   const initializedRef = useRef(false)
 
   useEffect(() => {
-    if (!user) {
+    if (!user || user.role === 'admin') {
       seenStatusesRef.current = new Map()
       initializedRef.current = false
       setPendingIncomingCount(0)

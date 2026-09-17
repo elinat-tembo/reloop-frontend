@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { PhotoIcon } from '@heroicons/react/24/outline'
 import { isListingAvailable, formatEstimatedValue } from '../utils/listingHelpers'
 
 function ListingCard({ listing }) {
@@ -20,26 +21,28 @@ function ListingCard({ listing }) {
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-sm text-gray-400">
-            No image
+          <div className="flex h-full w-full items-center justify-center text-gray-300">
+            <PhotoIcon className="h-8 w-8" />
           </div>
         )}
         {!isAvailable && (
-          <span className="absolute top-2 right-2 rounded-full bg-gray-800 px-2 py-1 text-xs font-semibold text-white">
+          <span className="absolute top-1.5 right-1.5 rounded-full bg-gray-800 px-1.5 py-0.5 text-[10px] font-semibold text-white">
             Unavailable
           </span>
         )}
       </div>
 
-      <div className="p-4 space-y-1">
-        <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-gray-900">{listing.type}</h3>
-          <span className="text-sm font-medium text-accent">
+      <div className="p-2.5 space-y-0.5">
+        <div className="flex items-center justify-between gap-1">
+          <h3 className="text-sm font-semibold text-gray-900 truncate">
+            {listing.type}
+          </h3>
+          <span className="text-xs font-medium text-accent whitespace-nowrap">
             {formatEstimatedValue(listing.estimatedValue)}
           </span>
         </div>
-        <p className="text-sm text-gray-600">{listing.brand}</p>
-        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500">
+        <p className="text-xs text-gray-600 truncate">{listing.brand}</p>
+        <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[11px] text-gray-500">
           <span>Size {listing.size}</span>
           <span>{listing.condition}</span>
           <span>{listing.city}</span>
