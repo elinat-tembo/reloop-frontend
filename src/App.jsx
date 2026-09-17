@@ -1,10 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import { NotificationProvider } from './context/NotificationContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/Navbar'
-import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -17,6 +16,13 @@ import Chat from './pages/Chat'
 import Profile from './pages/Profile'
 import Admin from './pages/Admin'
 
+function RootRedirect() {
+  const { user } = useAuth()
+
+  if (!user) return <Navigate to="/login" replace />
+  return <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} replace />
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,7 +31,7 @@ function App() {
           <Toaster position="top-center" />
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<RootRedirect />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 

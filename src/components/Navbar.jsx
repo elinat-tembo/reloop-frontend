@@ -26,10 +26,12 @@ function Navbar() {
     navigate("/login");
   }
 
+  const homePath = !user ? "/login" : user.role === "admin" ? "/admin" : "/dashboard";
+
   return (
     <nav className="bg-white/70 backdrop-blur border-b border-secondary/40 shadow-sm">
       <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center">
+        <Link to={homePath} className="flex items-center">
           <img src={logo} alt="Reloop" className="h-10 w-auto" />
         </Link>
 
