@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { updateProfile, changePassword } from "../api/users";
 import { getMe } from "../api/auth";
 import { useAuth } from "../context/AuthContext";
+import PasswordInput from "../components/PasswordInput";
 
 function Profile() {
   const { user, token, updateUser } = useAuth();
@@ -171,13 +172,12 @@ function Profile() {
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   Current Password
                 </label>
-                <input
+                <PasswordInput
                   name="currentPassword"
-                  type="password"
                   value={passwordForm.currentPassword}
                   onChange={handlePasswordChange}
                   required
-                  className="w-full rounded-lg border border-secondary/50 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full rounded-lg border border-secondary/50 pl-3 pr-10 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -185,13 +185,12 @@ function Profile() {
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   New Password
                 </label>
-                <input
+                <PasswordInput
                   name="newPassword"
-                  type="password"
                   value={passwordForm.newPassword}
                   onChange={handlePasswordChange}
                   required
-                  className="w-full rounded-lg border border-secondary/50 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full rounded-lg border border-secondary/50 pl-3 pr-10 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -199,13 +198,12 @@ function Profile() {
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   Confirm New Password
                 </label>
-                <input
+                <PasswordInput
                   name="confirmNewPassword"
-                  type="password"
                   value={passwordForm.confirmNewPassword}
                   onChange={handlePasswordChange}
                   required
-                  className="w-full rounded-lg border border-secondary/50 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full rounded-lg border border-secondary/50 pl-3 pr-10 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import PasswordInput from "../components/PasswordInput";
 import logo from "../assets/reloop-logo.png";
 
 function Login() {
@@ -70,14 +71,13 @@ function Login() {
             >
               Password
             </label>
-            <input
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
               required
               value={form.password}
               onChange={handleChange}
-              className="w-full rounded-lg border border-secondary/50 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              className="w-full rounded-lg border border-secondary/50 pl-3 pr-10 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
           </div>
 
